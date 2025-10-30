@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -8,6 +8,7 @@ export const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -22,8 +23,11 @@ export const Header = () => {
     { name: 'Notícias', path: '/noticias' },
     { name: 'Elenco', path: '/elenco' },
     { name: 'Resultados', path: '/resultados' },
+    { name: 'Títulos', path: '/titulos' },
     { name: 'Galeria', path: '/galeria' },
   ];
+
+  const isActive = (path) => location.pathname === path;
 
   return (
     <header
@@ -52,7 +56,11 @@ export const Header = () => {
               <Link key={item.path} to={item.path}>
                 <Button
                   variant="ghost"
-                  className="text-secondary-foreground hover:text-primary hover:bg-primary/10 font-medium transition-colors"
+                  className={`font-medium transition-colors ${
+                    isActive(item.path)
+                      ? 'text-primary bg-primary/10'
+                      : 'text-primary hover:text-primary hover:bg-primary/10'
+                  }`}
                 >
                   {item.name}
                 </Button>
@@ -67,22 +75,24 @@ export const Header = () => {
               variant="ghost"
               size="icon"
               onClick={() => setIsSearchOpen(!isSearchOpen)}
-              className="text-secondary-foreground hover:text-primary hover:bg-primary/10"
+              className="text-primary hover:text-primary hover:bg-primary/10"
             >
               <Search className="h-5 w-5" />
             </Button>
 
             {/* Submit News CTA */}
-            <Button className="hidden md:flex bg-primary text-primary-foreground hover:bg-primary-glow font-semibold shadow-gold transition-all duration-300">
-              Publicar Notícia
-            </Button>
+            <Link to="/publicar" className="hidden md:block">
+              <Button className="bg-primary text-primary-foreground hover:bg-primary-glow font-semibold shadow-gold transition-all duration-300">
+                Publicar Notícia
+              </Button>
+            </Link>
 
             {/* Mobile Menu Toggle */}
             <Button
               variant="ghost"
               size="icon"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="lg:hidden text-secondary-foreground"
+              className="lg:hidden text-primary"
             >
               {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </Button>
@@ -111,15 +121,21 @@ export const Header = () => {
                 <Link key={item.path} to={item.path} onClick={() => setIsMobileMenuOpen(false)}>
                   <Button
                     variant="ghost"
-                    className="w-full justify-start text-secondary-foreground hover:text-primary hover:bg-primary/10"
+                    className={`w-full justify-start font-medium ${
+                      isActive(item.path)
+                        ? 'text-primary bg-primary/10'
+                        : 'text-primary hover:text-primary hover:bg-primary/10'
+                    }`}
                   >
                     {item.name}
                   </Button>
                 </Link>
               ))}
-              <Button className="w-full bg-primary text-primary-foreground hover:bg-primary-glow mt-2">
-                Publicar Notícia
-              </Button>
+              <Link to="/publicar" onClick={() => setIsMobileMenuOpen(false)}>
+                <Button className="w-full bg-primary text-primary-foreground hover:bg-primary-glow mt-2">
+                  Publicar Notícia
+                </Button>
+              </Link>
             </div>
           </nav>
         )}
