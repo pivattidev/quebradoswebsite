@@ -1,4 +1,5 @@
 import { Calendar, User, ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -48,13 +49,15 @@ export const NewsCard = ({ news, variant = 'default' }) => {
             <span>{news.date}</span>
           </div>
         </div>
-        <Button
-          variant="ghost"
-          className="w-full justify-between text-foreground hover:text-primary hover:bg-primary/10"
-        >
-          Ler Mais
-          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-        </Button>
+        <Link to={`/noticia/${news.id}`} className="w-full">
+          <Button
+            variant="ghost"
+            className="w-full justify-between text-foreground hover:text-primary hover:bg-primary/10"
+          >
+            Ler Mais
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+          </Button>
+        </Link>
       </CardFooter>
     </Card>
   );

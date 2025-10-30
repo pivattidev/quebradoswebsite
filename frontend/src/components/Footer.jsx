@@ -2,8 +2,16 @@ import { Link } from 'react-router-dom';
 import { Facebook, Instagram, Twitter, Youtube, Mail } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { toast } from 'sonner';
+import { useState } from 'react';
+import axios from 'axios';
+
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 export const Footer = () => {
+  const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false);
+
   const socialLinks = [
     { icon: Facebook, href: '#', label: 'Facebook' },
     { icon: Instagram, href: '#', label: 'Instagram' },
@@ -21,9 +29,24 @@ export const Footer = () => {
   const newsCategories = [
     { name: 'Últimas Notícias', path: '/noticias' },
     { name: 'Resultados', path: '/resultados' },
-    { name: 'Entrevistas', path: '/entrevistas' },
+    { name: 'Títulos', path: '/titulos' },
     { name: 'Galeria', path: '/galeria' },
   ];
+
+  const handleSubscribe = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      await axios.post(`${BACKEND_URL}/api/subscribe`, { email });
+      toast.success('Inscrição realizada com sucesso! Você receberá nossas notícias por email.');
+      setEmail('');
+    } catch (error) {
+      toast.error('Erro ao se inscrever. Tente novamente.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <footer className="bg-secondary text-secondary-foreground">
@@ -108,17 +131,24 @@ export const Footer = () => {
             <p className="text-sm text-muted-foreground mb-4">
               Receba as últimas notícias direto no seu email.
             </p>
-            <div className="flex flex-col gap-2">
+            <form onSubmit={handleSubscribe} className="flex flex-col gap-2">
               <Input
                 type="email"
                 placeholder="Seu email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="bg-background/5 border-primary/30 focus:border-primary"
+                required
               />
-              <Button className="bg-primary text-primary-foreground hover:bg-primary-glow w-full">
+              <Button
+                type="submit"
+                disabled={loading}
+                className="bg-primary text-primary-foreground hover:bg-primary-glow w-full"
+              >
                 <Mail className="h-4 w-4 mr-2" />
-                Inscrever
+                {loading ? 'Inscrevendo...' : 'Inscrever'}
               </Button>
-            </div>
+            </form>
           </div>
         </div>
       </div>
