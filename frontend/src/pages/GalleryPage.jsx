@@ -15,31 +15,7 @@ const galleryImages = [
     url: 'https://customer-assets.emergentagent.com/job_0ceb3f03-9c7c-49d8-a8aa-e9afdb1325f4/artifacts/ywpbppk3_CAMISA%20QUEBRADOS%20BLACK.png',
     title: 'Uniforme Oficial 2024',
     category: 'Uniforme',
-  },
-  {
-    id: 3,
-    url: 'https://images.unsplash.com/photo-1657957746418-6a38df9e1ea7',
-    title: 'Ação de Jogo',
-    category: 'Partidas',
-  },
-  {
-    id: 4,
-    url: 'https://images.unsplash.com/photo-1489944440615-453fc2b6a9a9',
-    title: 'Estádio Lotado',
-    category: 'Torcida',
-  },
-  {
-    id: 5,
-    url: 'https://images.unsplash.com/photo-1512719994953-eabf50895df7',
-    title: 'Vista do Estádio',
-    category: 'Estádio',
-  },
-  {
-    id: 6,
-    url: 'https://customer-assets.emergentagent.com/job_quebrados-updates/artifacts/j5658tg2_EA_FC_Elite_Division.webp',
-    title: 'Troféu Divisão Elite',
-    category: 'Conquistas',
-  },
+  }
 ];
 
 const categories = ['Todas', 'Time', 'Partidas', 'Torcida', 'Estádio', 'Uniforme', 'Conquistas'];

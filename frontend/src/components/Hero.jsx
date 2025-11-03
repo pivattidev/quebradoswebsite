@@ -11,7 +11,7 @@ const featuredNews = [
     excerpt: 'Em partida emocionante, o Quebrados FC venceu o rival por 3 a 1 e lidera o campeonato com autoridade.',
     category: 'Resultados',
     date: '15 Jan 2024',
-    image: 'https://images.unsplash.com/photo-1657957746418-6a38df9e1ea7',
+    image: 'https://customer-assets.emergentagent.com/job_quebrados-updates/artifacts/2i4sp7je_Screenshot%202025-10-30%2009.49.11.png',
     trending: true,
   },
   {

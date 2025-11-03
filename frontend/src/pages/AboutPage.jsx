@@ -18,7 +18,7 @@ const members = [
 const influencers = [
   { name: 'Gustavão', role: 'Membro Influenciador' },
   { name: 'Vinicius Gomes', role: 'Membro Influenciador' },
-  { name: 'Vinição', role: 'Membro Influenciador' },
+  { name: 'Vinissão', role: 'Membro Influenciador' },
 ];
 
 const publicist = { name: 'Kevin', role: 'Membro Publicitário' };

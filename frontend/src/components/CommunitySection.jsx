@@ -105,6 +105,7 @@ export const CommunitySection = () => {
               <p className="text-secondary-foreground/80 mb-6">
                 Publique notícias, compartilhe sua opinião e conecte-se com outros torcedores
               </p>
+              
               <Button className="bg-primary text-primary-foreground hover:bg-primary-glow shadow-gold font-semibold">
                 Publicar Minha Notícia
               </Button>

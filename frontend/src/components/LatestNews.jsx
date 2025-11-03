@@ -57,6 +57,15 @@ const newsData = [
     date: '10 Jan 2024',
     image: 'https://images.unsplash.com/photo-1529900748604-07564a03e7a6?w=800',
   },
+  {
+    id: 7,
+    title: 'Quebrados FC Ganha Clássico Decisivo Contra Ricos FC',
+    excerpt: 'Com golaço olímpico de Zuianaldo Jr, Quebrados ganha de maneira cinematógrafico',
+    category: 'Clube',
+    author: 'Cauã Rodrigues',
+    date: '23 Jan 2024',
+    image: 'https://i.postimg.cc/3RSyYhSc/Screenshot-2025-10-30-11-56-15.png',
+  },
 ];
 
 export const LatestNews = () => {

@@ -11,7 +11,7 @@ const matches = [
     homeScore: 4,
     awayScore: 2,
     scorers: ['Rafael (2)', 'Matheus', 'Kauê'],
-    venue: 'Estádio do Quebrados',
+    venue: 'Estádio Antônio Soares de Oliveira',
   },
   {
     id: 2,
@@ -20,8 +20,8 @@ const matches = [
     awayTeam: 'Quebrados FC',
     homeScore: 1,
     awayScore: 3,
-    scorers: ['Rafael', 'Daido', 'Zuiani'],
-    venue: 'Estádio dos Ricos',
+    scorers: ['Rafael', 'Matheus', 'Zuiani'],
+    venue: 'Estádio Antônio Soares de Oliveira',
   },
   {
     id: 3,
@@ -31,7 +31,7 @@ const matches = [
     homeScore: 3,
     awayScore: 1,
     scorers: ['Rafael', 'Kauê', 'Matheus'],
-    venue: 'Estádio do Quebrados',
+    venue: 'Estádio Antônio Soares de Oliveira',
   },
   {
     id: 4,
@@ -40,18 +40,28 @@ const matches = [
     awayTeam: 'Quebrados FC',
     homeScore: 2,
     awayScore: 5,
-    scorers: ['Rafael (3)', 'Matheus', 'Daido'],
-    venue: 'Estádio dos Ricos',
+    scorers: ['Rafael (2)', 'Matheus', 'Zuiani', "Kaue"],
+    venue: 'Estádio Antônio Soares de Oliveira',
   },
   {
     id: 5,
     date: '05 Ago 2024',
     homeTeam: 'Quebrados FC',
     awayTeam: 'Ricos FC',
-    homeScore: 3,
+    homeScore: 2,
     awayScore: 0,
-    scorers: ['Rafael (2)', 'Kauê'],
-    venue: 'Estádio do Quebrados',
+    scorers: ['Zuiani', 'Kauê'],
+    venue: 'Estádio Antônio Soares de Oliveira',
+  },
+  {
+  id: 6,
+    date: '27 Jul 2024',
+    homeTeam: 'Ricos FC',
+    awayTeam: 'Quebrados FC',
+    homeScore: 1,
+    awayScore: 0,
+    scorers: ['Zuiani (GC)'],
+    venue: 'Estádio Antônio Soares de Oliveira',
   },
 ];
 
@@ -92,10 +102,10 @@ export const ResultsPage = () => {
         <div className="flex justify-center mb-12">
           <div className="relative">
             <img
-              src="https://customer-assets.emergentagent.com/job_quebrados-updates/artifacts/2wkt8gvx_unnamed%20%283%29.png"
-              alt="Ricos FC"
-              className="h-32 w-32 rounded-full border-4 border-primary/30 shadow-gold"
-            />
+             src="https://customer-assets.emergentagent.com/job_0ceb3f03-9c7c-49d8-a8aa-e9afdb1325f4/artifacts/gge94svi_logo%20quebrados.png"
+             alt="Quebrados FC"
+             className="h-48 w-48 drop-shadow-2xl"
+           />
           </div>
         </div>
 
