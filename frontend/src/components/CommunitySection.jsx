@@ -1,43 +1,48 @@
+import { useState, useEffect } from 'react';
 import { MessageSquare, Heart, Share2 } from 'lucide-react';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import axios from 'axios';
 
-const communityPosts = [
-  {
-    id: 1,
-    author: 'Carlos Mendes',
-    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Carlos',
-    time: '2 horas atrás',
-    content: 'Que jogo incrível! O Quebrados mostrou muita raça hoje. Esse time tem tudo para conquistar o título! 🏆⚽',
-    likes: 45,
-    comments: 12,
-    category: 'Opinião',
-  },
-  {
-    id: 2,
-    author: 'Mariana Silva',
-    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Mariana',
-    time: '5 horas atrás',
-    content: 'Alguém mais notou a evolução do meio-campo? A conexão entre os jogadores está cada vez melhor!',
-    likes: 32,
-    comments: 8,
-    category: 'Análise',
-  },
-  {
-    id: 3,
-    author: 'Roberto Alves',
-    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Roberto',
-    time: '1 dia atrás',
-    content: 'Orgulho de fazer parte dessa torcida! Independente do resultado, sempre com o Quebrados FC! 💛🖤',
-    likes: 78,
-    comments: 15,
-    category: 'Torcida',
-  },
-];
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 export const CommunitySection = () => {
+  const [communityPosts, setCommunityPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchDailyComments();
+  }, []);
+
+  const fetchDailyComments = async () => {
+    try {
+      const response = await axios.get(`${BACKEND_URL}/api/comments/daily`);
+      setCommunityPosts(response.data);
+    } catch (error) {
+      console.error('Error fetching comments:', error);
+      // Fallback to default comments if API fails
+      setCommunityPosts([
+        {
+          author: 'Carlos Mendes',
+          avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Carlos',
+          time: '2 horas atrás',
+          content: 'Que jogo incrível! O Quebrados mostrou muita raça hoje. Esse time tem tudo para conquistar o título! 🏆⚽',
+          likes: 45,
+          comments: 12,
+          category: 'Opinião',
+        },
+      ]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return null;
+  }
+
   return (
     <section className="py-16 bg-muted/30">
       <div className="container mx-auto px-4">
@@ -54,8 +59,8 @@ export const CommunitySection = () => {
 
         {/* Community Posts */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-          {communityPosts.map((post) => (
-            <Card key={post.id} className="border-border hover:border-primary/50 transition-all duration-300 flex flex-col">
+          {communityPosts.map((post, index) => (
+            <Card key={index} className="border-border hover:border-primary/50 transition-all duration-300 flex flex-col">
               <CardHeader>
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-3">
@@ -105,7 +110,6 @@ export const CommunitySection = () => {
               <p className="text-secondary-foreground/80 mb-6">
                 Publique notícias, compartilhe sua opinião e conecte-se com outros torcedores
               </p>
-              
               <Button className="bg-primary text-primary-foreground hover:bg-primary-glow shadow-gold font-semibold">
                 Publicar Minha Notícia
               </Button>

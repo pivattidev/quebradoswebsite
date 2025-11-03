@@ -2,20 +2,23 @@ import { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, Calendar, TrendingUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Card } from '@/components/ui/card';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 
-const featuredNews = [
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
+const defaultNews = [
   {
-    id: 1,
+    id: 'default-1',
     title: 'Quebrados FC Conquista Vitória Histórica no Clássico Local',
     excerpt: 'Em partida emocionante, o Quebrados FC venceu o rival por 3 a 1 e lidera o campeonato com autoridade.',
     category: 'Resultados',
     date: '15 Jan 2024',
-    image: 'https://customer-assets.emergentagent.com/job_quebrados-updates/artifacts/2i4sp7je_Screenshot%202025-10-30%2009.49.11.png',
+    image: 'https://images.unsplash.com/photo-1657957746418-6a38df9e1ea7',
     trending: true,
   },
   {
-    id: 2,
+    id: 'default-2',
     title: 'Novo Reforço: Atacante Revelação Assina Contrato de 3 Anos',
     excerpt: 'Quebrados FC anuncia a contratação de um dos maiores talentos da temporada para reforçar o ataque.',
     category: 'Transferências',
@@ -24,7 +27,7 @@ const featuredNews = [
     trending: true,
   },
   {
-    id: 3,
+    id: 'default-3',
     title: 'Estádio Lotado: Torcida Bate Recorde de Público',
     excerpt: 'Mais de 15 mil torcedores compareceram ao estádio para apoiar o Quebrados FC na última partida.',
     category: 'Torcida',
@@ -36,13 +39,35 @@ const featuredNews = [
 
 export const Hero = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [featuredNews, setFeaturedNews] = useState(defaultNews);
+
+  useEffect(() => {
+    fetchLatestNews();
+  }, []);
 
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % featuredNews.length);
     }, 6000);
     return () => clearInterval(timer);
-  }, []);
+  }, [featuredNews]);
+
+  const fetchLatestNews = async () => {
+    try {
+      const response = await axios.get(`${BACKEND_URL}/api/news`);
+      if (response.data && response.data.length > 0) {
+        // Get the 3 most recent news
+        const latest = response.data.slice(0, 3);
+        setFeaturedNews(latest.map((news, index) => ({
+          ...news,
+          trending: index === 0, // First news is trending
+        })));
+      }
+    } catch (error) {
+      console.error('Error fetching news:', error);
+      // Keep default news if API fails
+    }
+  };
 
   const goToSlide = (index) => {
     setCurrentSlide(index);
@@ -88,7 +113,7 @@ export const Hero = () => {
               {currentNews.category}
             </Badge>
             {currentNews.trending && (
-              <Badge variant="outline" className="border-primary text-primary">
+              <Badge variant="outline" className="border-primary text-primary bg-background/80">
                 <TrendingUp className="h-3 w-3 mr-1" />
                 Em Alta
               </Badge>
@@ -111,9 +136,11 @@ export const Hero = () => {
               <Calendar className="h-4 w-4" />
               <span className="text-sm">{currentNews.date}</span>
             </div>
-            <Button className="bg-primary text-primary-foreground hover:bg-primary-glow shadow-gold font-semibold px-8">
-              Ler Notícia Completa
-            </Button>
+            <Link to={`/noticia/${currentNews.id}`}>
+              <Button className="bg-primary text-primary-foreground hover:bg-primary-glow shadow-gold font-semibold px-8">
+                Ler Notícia Completa
+              </Button>
+            </Link>
           </div>
         </div>
       </div>
