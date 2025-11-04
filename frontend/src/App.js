@@ -13,6 +13,9 @@ import { AboutPage } from '@/pages/AboutPage';
 import { ContactPage } from '@/pages/ContactPage';
 import { CalendarPage } from '@/pages/CalendarPage';
 import { PublishPage } from '@/pages/PublishPage';
+import { StorePage } from '@/pages/StorePage';
+import { PodcastPage } from '@/pages/PodcastPage';
+import { LastDancePage } from '@/pages/LastDancePage';
 import { Toaster } from '@/components/ui/sonner';
 
 function App() {
@@ -33,6 +36,9 @@ function App() {
             <Route path="/contato" element={<ContactPage />} />
             <Route path="/calendario" element={<CalendarPage />} />
             <Route path="/publicar" element={<PublishPage />} />
+            <Route path="/loja" element={<StorePage />} />
+            <Route path="/podcast" element={<PodcastPage />} />
+            <Route path="/last-dance" element={<LastDancePage />} />
           </Routes>
         </main>
         <Footer />

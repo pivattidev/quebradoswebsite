@@ -7,6 +7,9 @@ from datetime import datetime
 from bson import ObjectId
 import os
 import random
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 
 app = FastAPI()
 
@@ -43,6 +46,72 @@ class Comment(BaseModel):
     author: str
     content: str
     avatar: str
+
+# Email configuration
+EMAIL_FROM = "futebolclubequebrados@gmail.com"
+
+def send_welcome_email(email: str):
+    """Send welcome email to new subscriber"""
+    try:
+        subject = "Bem-vindo ao Quebrados FC News! 🎉"
+        
+        html_content = f"""
+        <html>
+            <body style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f5f5f5;">
+                <div style="background-color: #000; padding: 30px; text-align: center; border-radius: 10px 10px 0 0;">
+                    <h1 style="color: #FDB913; margin: 0; font-size: 32px;">QUEBRADOS FC</h1>
+                    <p style="color: #fff; margin: 10px 0 0 0;">News</p>
+                </div>
+                
+                <div style="background-color: #fff; padding: 40px; border-radius: 0 0 10px 10px;">
+                    <h2 style="color: #000; margin-bottom: 20px;">Obrigado pela sua inscrição!</h2>
+                    
+                    <p style="color: #666; line-height: 1.6; margin-bottom: 20px;">
+                        Estamos muito felizes em tê-lo(a) como parte da família Quebrados FC! 
+                        Agora você receberá em primeira mão todas as notícias, resultados e novidades do clube.
+                    </p>
+                    
+                    <div style="background-color: #FDB913; padding: 20px; border-radius: 8px; margin: 30px 0; text-align: center;">
+                        <h3 style="color: #000; margin: 0 0 10px 0;">🎁 Presente Especial para Você!</h3>
+                        <p style="color: #000; margin: 0 0 15px 0;">Use este cupom e ganhe 10% de desconto na Loja Oficial:</p>
+                        <div style="background-color: #000; color: #FDB913; padding: 15px; border-radius: 5px; font-size: 24px; font-weight: bold; letter-spacing: 2px;">
+                            QUEBRADOS10
+                        </div>
+                    </div>
+                    
+                    <h3 style="color: #000; margin-top: 30px;">Sobre o Quebrados FC</h3>
+                    <ul style="color: #666; line-height: 1.8;">
+                        <li>🏆 <strong>Fundado em 2024</strong> - Julho</li>
+                        <li>⚽ <strong>Campeão</strong> da Divisão Elite 2024</li>
+                        <li>💛🖤 <strong>Cores oficiais:</strong> Preto e Dourado</li>
+                        <li>📍 <strong>Estádio:</strong> Estádio do Quebrados</li>
+                        <li>👥 <strong>Torcedores:</strong> Mais de 8.500 apaixonados</li>
+                    </ul>
+                    
+                    <p style="color: #666; line-height: 1.6; margin-top: 30px;">
+                        Visite nossa <a href="#" style="color: #FDB913; text-decoration: none; font-weight: bold;">Loja Oficial</a> 
+                        e garanta sua camisa oficial do Quebrados FC com desconto especial!
+                    </p>
+                    
+                    <div style="text-align: center; margin-top: 40px; padding-top: 30px; border-top: 1px solid #eee;">
+                        <p style="color: #999; font-size: 12px;">
+                            © 2024 Quebrados FC News. Todos os direitos reservados.<br>
+                            Contato: futebolclubequebrados@gmail.com
+                        </p>
+                    </div>
+                </div>
+            </body>
+        </html>
+        """
+        
+        # In production, you would actually send the email here
+        # For now, we'll just log it
+        print(f"Welcome email would be sent to: {email}")
+        print(f"Subject: {subject}")
+        return True
+    except Exception as e:
+        print(f"Error sending email: {str(e)}")
+        return False
 
 # Sample comments pool for daily rotation
 COMMENTS_POOL = [
@@ -142,6 +211,10 @@ async def subscribe_newsletter(subscriber: Subscriber):
         subscriber_dict = subscriber.dict()
         subscriber_dict['subscribed_at'] = datetime.now()
         subscribers_collection.insert_one(subscriber_dict)
+        
+        # Send welcome email
+        send_welcome_email(subscriber.email)
+        
         return {"message": "Successfully subscribed to newsletter"}
     except Exception as e:
         print(f"Error subscribing: {str(e)}")
