@@ -63,6 +63,16 @@ const matches = [
     scorers: ['Zuiani (GC)'],
     venue: 'Estádio Antônio Soares de Oliveira',
   },
+  {
+  id: 7,
+    date: '02 Fev 2015',
+    homeTeam: 'Ricos FC Sub-8',
+    awayTeam: 'Quebrados FC Sub-8',
+    homeScore: 0,
+    awayScore: 2,
+    scorers: ['Zuianinho', 'Erosinho'],
+    venue: 'Estádio Antônio Soares de Oliveira',
+  },
 ];
 
 const calculateStats = () => {
