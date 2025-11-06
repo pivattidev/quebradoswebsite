@@ -15,56 +15,99 @@ const players = [
   { id: 11, name: "Rafael", position: "Atacante", number: 7, image: "https://customer-assets.emergentagent.com/job_quebrados-updates/artifacts/xmsllnhz_Rafael%20%281%29.png" },
 ];
 
+// Reutilizável: cartinha grande com imagem do jogador em destaque
+const PlayerCard = ({ player }) => {
+  const imgSrc = player.image && player.image.length > 0 ? player.image : "/placeholder.jpg";
+  return (
+    <Card className="w-56 bg-gradient-to-b from-yellow-300/8 to-black border border-yellow-400/30 shadow-[0_0_20px_rgba(255,215,0,0.15)] hover:shadow-[0_0_30px_rgba(255,215,0,0.35)] transition-all duration-300">
+      <div className="relative h-64 overflow-hidden rounded-xl">
+        <img
+          src={imgSrc}
+          alt={player.name}
+          className="w-full h-full object-cover rounded-xl"
+        />
+        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/85 to-transparent p-3">
+          <Badge className="bg-yellow-500 text-black text-xs mb-1">{player.position}</Badge>
+          <div className="flex items-center justify-between">
+            <h3 className="text-sm font-bold text-yellow-300 truncate">{player.name}</h3>
+            <div className="h-9 w-9 rounded-full bg-yellow-400 flex items-center justify-center text-black font-bold">
+              {player.number}
+            </div>
+          </div>
+        </div>
+      </div>
+    </Card>
+  );
+};
+
 export const RosterPage = () => {
-  const positions = {
-    goleiro: players.filter((p) => p.position === "Goleiro"),
-    zagueiros: players.filter((p) => ["Zagueiro", "Lateral Esquerdo", "Lateral Direito"].includes(p.position)),
-    meio: players.filter((p) => ["Volante", "Meio Campo"].includes(p.position)),
-    ataque: players.filter((p) => ["Meia Atacante", "Atacante"].includes(p.position)),
-  };
+  // Seleção explícita para montar a formação 4-2-3-1
+  const goleiro = players.find((p) => p.position === "Goleiro");
+
+  // Defesa: LE, ZAG, ZAG, LD
+  const lateralEsquerdo = players.find((p) => p.name === "Gustavão");
+  const zagueiro1 = players.find((p) => p.name === "Vini Alves");
+  const zagueiro2 = players.find((p) => p.name === "José");
+  const lateralDireito = players.find((p) => p.name === "Matheus");
+
+  // Meio: dois volantes/meio (Kauê e Pivatti)
+  const volante1 = players.find((p) => p.name === "Kauê");
+  const volante2 = players.find((p) => p.name === "Pivatti");
+
+  // Linha ofensiva 3: Eros (esquerda), Zuiani (centro), Rafael (direita)
+  const atacanteEsq = players.find((p) => p.name === "Eros");
+  const meiaOfensivo = players.find((p) => p.name === "Zuiani");
+  const atacanteDir = players.find((p) => p.name === "Rafael");
 
   return (
     <div className="min-h-screen bg-black text-yellow-400 py-16">
-      <div className="container mx-auto text-center">
-        <h1 className="text-5xl font-extrabold mb-10 text-yellow-400 drop-shadow-[0_0_15px_rgba(255,255,0,0.6)]">
-          Elenco Principal — <span className="text-white">Quebrados FC</span>
-        </h1>
+      <div className="container mx-auto px-4">
+        {/* Título */}
+        <div className="text-center mb-12">
+          <h1 className="text-5xl font-extrabold mb-3 text-yellow-400 drop-shadow-[0_0_15px_rgba(255,215,0,0.45)]">
+            Escalação Oficial — <span className="text-white">Quebrados FC</span>
+          </h1>
+          <p className="text-muted-foreground max-w-2xl mx-auto">
+            Formação: <strong>4-2-3-1</strong> — Gustavão (LE) pela esquerda, Kauê & Pivatti no meio, Zuiani centralizado na linha de 3.
+          </p>
+        </div>
 
-        {/* Campo visualizado por setores */}
-        <div className="flex flex-col items-center gap-16">
+        {/* Formação visual */}
+        <div className="flex flex-col items-center space-y-10">
 
-          {/* ATAQUE */}
-          <div className="flex justify-center gap-12">
-            {positions.ataque.map((player) => (
-              <PlayerCard key={player.id} player={player} />
-            ))}
+          {/* Linha atacante: Eros (esq) | Zuiani (centro) | Rafael (dir) */}
+          <div className="flex justify-center items-end gap-10">
+            {atacanteEsq && <PlayerCard player={atacanteEsq} />}
+            {meiaOfensivo && <PlayerCard player={meiaOfensivo} />}
+            {atacanteDir && <PlayerCard player={atacanteDir} />}
           </div>
 
-          {/* MEIO */}
-          <div className="flex justify-center gap-12">
-            {positions.meio.map((player) => (
-              <PlayerCard key={player.id} player={player} />
-            ))}
+          {/* Linha de apoio*/}
+          <div className="h-2" />
+
+          {/* Meio-campo (duplo): Kauê | Pivatti */}
+          <div className="flex justify-center gap-16">
+            {volante1 && <PlayerCard player={volante1} />}
+            {volante2 && <PlayerCard player={volante2} />}
           </div>
 
-          {/* DEFESA */}
-          <div className="flex justify-center gap-12">
-            {positions.zagueiros.map((player) => (
-              <PlayerCard key={player.id} player={player} />
-            ))}
+          {/* Defesa (4): LE | ZAG | ZAG | LD */}
+          <div className="flex justify-center items-start gap-8">
+            {lateralEsquerdo && <PlayerCard player={lateralEsquerdo} />}
+            {zagueiro1 && <PlayerCard player={zagueiro1} />}
+            {zagueiro2 && <PlayerCard player={zagueiro2} />}
+            {lateralDireito && <PlayerCard player={lateralDireito} />}
           </div>
 
-          {/* GOLEIRO */}
-          <div className="flex justify-center">
-            {positions.goleiro.map((player) => (
-              <PlayerCard key={player.id} player={player} />
-            ))}
+          {/* Goleiro */}
+          <div className="flex justify-center mt-4">
+            {goleiro && <PlayerCard player={goleiro} />}
           </div>
         </div>
 
-        {/* Foto do time */}
-        <div className="mt-24">
-          <Card className="overflow-hidden border-yellow-500/50 shadow-[0_0_25px_rgba(255,255,0,0.4)]">
+        {/* Foto do time*/}
+        <div className="mt-12 flex justify-center">
+          <Card className="overflow-hidden border-yellow-400/25 shadow-[0_0_18px_rgba(255,215,0,0.18)] w-3/5 max-w-2xl">
             <CardContent className="p-0">
               <img
                 src="https://customer-assets.emergentagent.com/job_quebrados-updates/artifacts/2i4sp7je_Screenshot%202025-10-30%2009.49.11.png"
@@ -79,20 +122,4 @@ export const RosterPage = () => {
   );
 };
 
-// --- Cartinha de jogador ---
-const PlayerCard = ({ player }) => (
-  <Card className="w-56 bg-gradient-to-b from-yellow-300/10 to-black border border-yellow-400/40 shadow-[0_0_20px_rgba(255,255,0,0.3)] hover:shadow-[0_0_25px_rgba(255,255,0,0.8)] transition-all duration-500">
-    <div className="relative h-72 overflow-hidden rounded-2xl">
-      <img
-        src={player.image || "/placeholder.jpg"}
-        alt={player.name}
-        className="w-full h-full object-cover rounded-2xl"
-      />
-      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent p-4">
-        <Badge className="bg-yellow-500 text-black text-xs mb-2">{player.position}</Badge>
-        <h3 className="text-lg font-bold text-yellow-300">{player.name}</h3>
-        <p className="text-sm text-yellow-100">#{player.number}</p>
-      </div>
-    </div>
-  </Card>
-);
+export default RosterPage;
