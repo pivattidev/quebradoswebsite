@@ -63,7 +63,7 @@ export const RosterPage = () => {
             Escalação Oficial — <span className="text-white">Quebrados FC</span>
           </h1>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Formação: <strong>4-2-3-1</strong> — Gustavão (LE) pela esquerda, Kauê & Pivatti no meio, Zuiani centralizado na linha de 3.
+            Formação: <strong>4-2-3-1</strong>
           </p>
         </div>
 
