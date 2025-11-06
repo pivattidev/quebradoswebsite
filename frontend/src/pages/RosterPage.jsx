@@ -15,51 +15,68 @@ const players = [
   { id: 11, name: 'Rafael', position: 'Atacante', number: 7, image: 'https://customer-assets.emergentagent.com/job_quebrados-updates/artifacts/xmsllnhz_Rafael%20%281%29.png' },
 ];
 
-// Função auxiliar para renderizar uma seção de jogadores
-const PlayerSection = ({ title, players }) => (
-  <div className="mb-16">
-    <h2 className="text-3xl font-bold text-foreground mb-8 text-center">
-      {title}
-    </h2>
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {players.map((player) => (
-        <Card
-          key={player.id}
-          className="group overflow-hidden border-border hover:border-primary/50 transition-all duration-300 hover:shadow-gold"
-        >
-          <div className="relative h-96 overflow-hidden bg-gradient-to-br from-secondary to-secondary/80">
-            <img
-              src={player.image}
-              alt={player.name}
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-secondary via-transparent to-transparent opacity-60" />
+// --- COMPONENTE DE SEÇÃO ---
+const PlayerSection = ({ title, subtitle, color, players }) => (
+  <div className="relative mb-24">
+    {/* Fundo decorativo */}
+    <div
+      className={`absolute inset-0 opacity-10 blur-3xl rounded-3xl bg-gradient-to-r ${color}`}
+    ></div>
 
-            {/* Número do jogador */}
-            <div className="absolute top-4 right-4">
-              <div className="h-16 w-16 rounded-full bg-primary flex items-center justify-center shadow-gold">
-                <span className="text-3xl font-bold text-primary-foreground">
-                  {player.number}
-                </span>
+    <div className="relative z-10">
+      {/* Cabeçalho da seção */}
+      <div className="text-center mb-12">
+        <h2
+          className={`text-4xl md:text-5xl font-extrabold bg-gradient-to-r ${color} bg-clip-text text-transparent mb-3`}
+        >
+          {title}
+        </h2>
+        <p className="text-muted-foreground text-lg">{subtitle}</p>
+        <div className="mt-4 w-32 h-1 mx-auto bg-gradient-to-r from-primary to-yellow-400 rounded-full shadow-gold animate-pulse"></div>
+      </div>
+
+      {/* Grid dos jogadores */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {players.map((player) => (
+          <Card
+            key={player.id}
+            className="group overflow-hidden border-border hover:border-primary/50 transition-all duration-300 hover:shadow-gold"
+          >
+            <div className="relative h-96 overflow-hidden bg-gradient-to-br from-secondary to-secondary/80">
+              <img
+                src={player.image}
+                alt={player.name}
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-secondary via-transparent to-transparent opacity-60" />
+
+              {/* Número */}
+              <div className="absolute top-4 right-4">
+                <div className="h-16 w-16 rounded-full bg-primary flex items-center justify-center shadow-gold">
+                  <span className="text-3xl font-bold text-primary-foreground">
+                    {player.number}
+                  </span>
+                </div>
+              </div>
+
+              {/* Nome e posição */}
+              <div className="absolute bottom-0 left-0 right-0 p-6">
+                <Badge className="bg-primary text-primary-foreground mb-3">
+                  {player.position}
+                </Badge>
+                <h3 className="text-3xl font-bold text-secondary-foreground drop-shadow-md">
+                  {player.name}
+                </h3>
               </div>
             </div>
-
-            {/* Informações do jogador */}
-            <div className="absolute bottom-0 left-0 right-0 p-6">
-              <Badge className="bg-primary text-primary-foreground mb-3">
-                {player.position}
-              </Badge>
-              <h3 className="text-3xl font-bold text-secondary-foreground">
-                {player.name}
-              </h3>
-            </div>
-          </div>
-        </Card>
-      ))}
+          </Card>
+        ))}
+      </div>
     </div>
   </div>
 );
 
+// --- PÁGINA PRINCIPAL ---
 export const RosterPage = () => {
   const defensores = players.filter((p) =>
     ['Goleiro', 'Zagueiro', 'Lateral Direito', 'Lateral Esquerdo'].includes(p.position)
@@ -75,22 +92,37 @@ export const RosterPage = () => {
     <div className="min-h-screen bg-background py-8">
       <div className="container mx-auto px-4">
         {/* Cabeçalho */}
-        <div className="mb-12 text-center">
+        <div className="mb-16 text-center">
           <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-4">
             Nosso <span className="text-primary">Elenco</span>
           </h1>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Conheça os jogadores que vestem a camisa do Quebrados FC com orgulho e determinação
+            Conheça os guerreiros do <span className="text-primary font-semibold">Quebrados FC</span> — unidos pela humildade, raça e paixão pelo jogo.
           </p>
         </div>
 
-        {/* Seções separadas */}
-        <PlayerSection title="Defensores" players={defensores} />
-        <PlayerSection title="Meio-Campistas" players={meioCampistas} />
-        <PlayerSection title="Atacantes" players={atacantes} />
+        {/* Seções */}
+        <PlayerSection
+          title="Defensores"
+          subtitle="A muralha do Quebrados FC — força, foco e coragem."
+          color="from-blue-400 to-cyan-500"
+          players={defensores}
+        />
+        <PlayerSection
+          title="Meio-Campistas"
+          subtitle="O cérebro e o coração do time — controle, criação e intensidade."
+          color="from-green-400 to-emerald-500"
+          players={meioCampistas}
+        />
+        <PlayerSection
+          title="Atacantes"
+          subtitle="A linha de frente — velocidade, talento e finalização mortal."
+          color="from-red-500 to-orange-400"
+          players={atacantes}
+        />
 
         {/* Foto do time */}
-        <div className="mt-16">
+        <div className="mt-24">
           <Card className="overflow-hidden border-primary/30 shadow-gold">
             <CardContent className="p-0">
               <img
