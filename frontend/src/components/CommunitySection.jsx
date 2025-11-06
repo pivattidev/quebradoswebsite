@@ -25,7 +25,7 @@ export const CommunitySection = () => {
       // Fallback to default comments if API fails
       setCommunityPosts([
         {
-          author: 'Carlos Mendes',
+          author: 'Aislan Feitosa',
           avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Carlos',
           time: '2 horas atrás',
           content: 'Que jogo incrível! O Quebrados mostrou muita raça hoje. Esse time tem tudo para conquistar o título! 🏆⚽',
