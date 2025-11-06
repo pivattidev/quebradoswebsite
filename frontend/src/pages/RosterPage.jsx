@@ -102,7 +102,7 @@ export const RosterPage = () => {
             Técnica:
           </h2>
           <p className="text-4xl font-bold text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]">
-            Ingryd Surimoto
+            Ingryd Carolina Suguimoto
           </p>
           <div className="mt-2 w-32 h-1 mx-auto bg-yellow-400 rounded-full shadow-[0_0_10px_rgba(255,215,0,0.6)]"></div>
         </div>
